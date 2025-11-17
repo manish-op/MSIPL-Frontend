@@ -1,0 +1,85 @@
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1f3b57 0%, #316a9c 100%);
+  min-height: 90vh;
+  padding: 20px;
+}
+
+/* --- Login Card --- */
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 30px 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(90, 220, 230, 0.25);
+  background: #fff;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* Logo */
+.login-logo {
+  height: 60px;
+  width: 60px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 8px 20px rgba(141, 228, 235, 0.25);
+}
+
+/* --- Form & Button --- */
+.login-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-btn {
+  background-color: #316a9c;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  
+}
+
+.login-btn:hover {
+  background-color: #468ac0;
+}
+
+/* --- Back Link --- */
+.back-home {
+  margin-top: 20px;
+}
+
+.back-link {
+  color: #316a9c;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.back-link:hover {
+  color: #1f3b57;
+  text-decoration: underline;
+}
+
+
+
+/* --- Responsive Styles for Mobile --- */
+@media (max-width: 480px) {
+  .login-wrapper {
+   
+    align-items: flex-start;
+    padding: 15px;
+    padding-top: 40px;
+  }
+
+  .login-card {
+   
+    padding: 25px 20px;
+  }
+}

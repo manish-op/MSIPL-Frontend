@@ -1,0 +1,14 @@
+Input:hover::after {
+    content: attr(data-content); 
+    position: absolute;
+    top: 0;
+    left: 100%; 
+    background-color: #f48b8b;
+    border: 1px solid #3783ee;
+    padding: 10px;
+    min-width: 200px; 
+    min-height: 100px; 
+    z-index: 10;
+    white-space: normal;
+    word-wrap: break-word;
+  }

@@ -1,0 +1,63 @@
+/* --- Main Layout --- */
+.main-content {
+ padding: 24px 24px 60px 24px; 
+  
+  background-color: var(--background-color, #f0f2f5);
+}
+
+.search-item-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* --- Search & Results Cards --- */
+.search-card,
+.results-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+  border: 1px solid var(--border-color, #e8e8e8);
+}
+
+.search-card {
+  margin-bottom: 24px;
+}
+
+/* --- Results Header (Title & Print Button) --- */
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  gap: 10px; /* Add space between items when they wrap */
+}
+
+.search-button {
+  min-width: 120px;
+}
+
+.results-card {
+  margin-bottom: 60px; /* This creates a buffer at the bottom */
+}
+
+/* Ensure table header is not overly bold */
+.ant-table-thead > tr > th {
+  font-weight: 600;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 15px;
+  }
+
+  /* On mobile, align the search button to the left */
+  .search-card .ant-form-item-control-input-content {
+    text-align: left;
+  }
+
+  /* Make the search button full width on small screens */
+  .search-button {
+    width: 100%;
+  }
+}

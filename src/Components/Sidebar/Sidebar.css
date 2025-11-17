@@ -1,0 +1,71 @@
+
+
+/* --- Default Mobile Styles --- */
+
+/* Main sidebar container */
+.sidebar {
+  position: fixed; /* Keep it fixed on the screen */
+  left: 0;
+  top: 0;
+  height: 100vh;
+  z-index: 1001; /* Ensure it's above other content */
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hide the sidebar off-screen by default on mobile */
+.sidebar.collapsed {
+  transform: translateX(-100%);
+}
+
+/* Style for the overlay that appears behind the sidebar on mobile */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+/* Show the overlay when the sidebar is open */
+.sidebar-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* The floating toggle button for mobile */
+.mobile-toggle-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1002; /* Above the sidebar and overlay */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Desktop Styles (screens wider than 768px) --- */
+@media (min-width: 768px) {
+  /* On desktop, the sidebar is part of the normal document flow */
+  .sidebar {
+    position: sticky; /* Stick to the top when scrolling */
+    transform: none !important; /* Reset the mobile transform */
+  }
+
+  /* We don't need the overlay on desktop */
+  .sidebar-overlay {
+    display: none;
+  }
+
+  /* Hide the mobile-specific toggle button on desktop */
+  .mobile-toggle-btn {
+    display: none;
+  }
+
+  /* Use Ant Design's built-in collapse transition on desktop */
+  .sidebar .ant-layout-sider-children {
+    transition: all 0.2s;
+  }
+}
