@@ -28,38 +28,50 @@ import RepairingDashboardForManager from "./Components/FRU/Repairing/AdminOrMana
 import InwardGatePass from "./Components/GatePass/InwardGatePass.js";
 import ImportExport from "./Components/ImportExport/ImportExport.js";
 import OutwardGatePass from "./Components/GatePass/OutwardGatePass.js";
-import '@ant-design/v5-patch-for-react-19';
+import "@ant-design/v5-patch-for-react-19";
 import AddAvailabilityStatus from "./Components/StatusOptionComp/AvailabilityStatus/AddAvailabilityStatus.js";
 import UpdateAvailabilityStatus from "./Components/StatusOptionComp/AvailabilityStatus/UpdateAvailabilityStatus.js";
 import AddItemStatusOption from "./Components/StatusOptionComp/ItemStatus/AddItemStatusOption.js";
 import UpdateItemStatusOption from "./Components/StatusOptionComp/ItemStatus/UpdateItemStatusOption.js";
 import { ThemeProvider } from "./context/ThemeContext.js";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import ChatComponent from "./Components/Chat/ChatComponent.js";
 import EmployeeList from "./Components/EmployeeList/EmployeeList.js";
 import ThresholdManager from "./Components/Threshold/ThresholdManager.js";
 import NotificationBell from "./Components/NotificationBell/NotificationBell.js";
+import ActivityFeed from "./Components/ActivityLogs/ActivityFeed.js";
+import RmaDashboard from "./Components/RMA/RMADashboard.js";
+import RmaRequestForm from "./Components/RMA/RmaRequestForm.js";
+import RepairRequestForm from "./Components/RMA/RepairRequestForm.js";
+import { useLocation } from "react-router-dom";
+import UnrepairedPage from "./Components/Repair/UnrepairedPage.js";
+import RepairedPage from "./Components/Repair/RepairedPage.js";
 
 
+const RepairRequestFormWrapper = () => {
+  const location = useLocation();
+  const { formData, items } = location.state || { formData: {}, items: [] };
+  return <RepairRequestForm formData={formData} items={items} onFormSubmit={() => {}} />;
+};
 
 function App() {
-
   return (
-
     <ThemeProvider>
       <div className="App">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginForm />} />
-          {/*dashboard related all items here*/}
-          {/* <Route path=",," element={<ProtectedRoute/>}> */}
+
+          {/* All protected routes */}
           <Route element={<ProtectedRoute />}>
+            {/* Warehouse dashboard and its nested routes */}
             <Route path="/dashboard" element={<Dashboard />}>
-              {/*user profile related all items here*/}
+              {/* user profile related */}
               <Route path="profile" element={<Profile />} />
               <Route path="changePassword" element={<ChangePassword />} />
               <Route path="logout" element={<Logout />} />
-              {/*Employee related to Employee*/}
+
+              {/* Employee related */}
               <Route path="addEmployee" element={<AddEmployee />} />
               <Route
                 path="changEmployeePass"
@@ -69,58 +81,85 @@ function App() {
                 path="changEmployeeRegion"
                 element={<AssignEmployeeRegion />}
               />
-              <Route path="changEmployeeRole" element={<ChangeEmployeeRole />} />
-              {/* add or update region */}
+              <Route
+                path="changEmployeeRole"
+                element={<ChangeEmployeeRole />}
+              />
+
+              {/* Region */}
               <Route path="addNewRegion" element={<AddRegion />} />
               <Route path="updateRegion" element={<UpdateRegion />} />
-              {/* related to keyword and subkeyword add delete update */}
+
+              {/* Keyword / SubKeyword */}
               <Route path="addKeyword" element={<AddKeyword />} />
               <Route path="updateKeyword" element={<UpdateKeyword />} />
               <Route path="addSubKeyword" element={<AddSubKeyword />} />
               <Route path="updateSubKeyword" element={<UpdateSubKeyword />} />
 
-              {/* related to Item  */}
+              {/* Items */}
               <Route path="addItem" element={<AddItem />} />
-              <Route path="getItemBySerial" element={<GetItemSearchBySerialNo />} />
-              <Route path="getItemByKeyword" element={<GetItemByKeyword />} />
+              <Route
+                path="getItemBySerial"
+                element={<GetItemSearchBySerialNo />}
+              />
+              <Route
+                path="getItemByKeyword"
+                element={<GetItemByKeyword />}
+              />
               <Route path="updateItem" element={<UpdateItem />} />
               <Route path="itemHistory" element={<GetHistoryBySerialNo />} />
               <Route path="historyTable" element={<HistoryTable />} />
-              <Route path="addAvailStatus" element={<AddAvailabilityStatus />} />
-              <Route path="updateAvailStatus" element={<UpdateAvailabilityStatus />} />
+              <Route
+                path="addAvailStatus"
+                element={<AddAvailabilityStatus />}
+              />
+              <Route
+                path="updateAvailStatus"
+                element={<UpdateAvailabilityStatus />}
+              />
               <Route path="addItemStatus" element={<AddItemStatusOption />} />
-              <Route path="UpdateItemStatus" element={<UpdateItemStatusOption />} />
+              <Route
+                path="UpdateItemStatus"
+                element={<UpdateItemStatusOption />}
+              />
 
-
-
-              {/* related to item repairing  */}
+              {/* Item repairing */}
               <Route path="itemRepairing" element={<RepairingPage />} />
 
-              {/* fru related dashboard and other details */}
-              <Route path="tickedDashboard" element={<RepairingDashboardForManager />} />
-              <Route path="import_export_CSV" element={<ImportExport />} />
-              {/* gatepass related  */}
+              {/* FRU manager dashboard */}
+              <Route
+                path="tickedDashboard"
+                element={<RepairingDashboardForManager />}
+              />
+
+              {/* Import / Export */}
+              <Route
+                path="import_export_CSV"
+                element={<ImportExport />}
+              />
+
+              {/* GatePass */}
               <Route path="inwardGatePass" element={<InwardGatePass />} />
               <Route path="outwardGatePass" element={<OutwardGatePass />} />
 
-
-              {/* activity log related  */}
-
+              {/* Activity / Alerts */}
               <Route path="activity-logs" element={<ChatComponent />} />
               <Route path="all-users" element={<EmployeeList />} />
               <Route path="thresholds" element={<ThresholdManager />} />
               <Route path="alerts/active" element={<NotificationBell />} />
-              
-              
-
-
+              <Route path="items/activity" element={<ActivityFeed />} />
             </Route>
+
+            {/* RMA side (separate top-level paths) */}
+            <Route path="/rma-dashboard" element={<RmaDashboard />} />
+            <Route path="/rma-requests" element={<RmaRequestForm />} />
+            <Route path="/rma-generate-form" element={<RepairRequestFormWrapper />} />
+            <Route path="/unrepaired" element={<UnrepairedPage />} />
+            <Route path="/repaired" element={<RepairedPage />} />
           </Route>
-          {/* </Route> */}
         </Routes>
       </div>
     </ThemeProvider>
-
   );
 }
 

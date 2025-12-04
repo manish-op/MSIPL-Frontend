@@ -477,3 +477,56 @@ footer {
   background-color: var(--hover-color) !important;
   color: var(--text-color-secondary) !important;
 }
+
+/* =========================================
+   Custom Tooltip & Toolbar Integration
+   ========================================= */
+
+/* NOTE: Ensure your input element has the attribute data-content="Your Text"
+   for this tooltip to appear.
+*/
+Input:hover::after {
+  content: attr(data-content);
+  position: absolute;
+  top: 0;
+  left: 100%;
+
+  /* --- Theme Integration --- */
+  /* Replaced hardcoded #f48b8b with component background for theme consistency */
+  background-color: var(--component-background); 
+  /* Replaced hardcoded #3783ee with primary color to match Ant Design theme */
+  border: 1px solid var(--primary-color);
+  /* Added text color to ensure readability in Dark Mode */
+  color: var(--text-color);
+  
+  /* Added shadow for better visibility in Dark Mode */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  /* --- Layout & Size --- */
+  padding: 10px;
+  min-width: 200px;
+  min-height: 100px;
+  z-index: 10;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+/* Toolbar Wrapper */
+.toolbar-wrap {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  
+  /* Ensure any direct text inside toolbar respects the theme color */
+  color: var(--text-color);
+}
+
+/* Responsive Styles for Toolbar */
+@media (max-width: 575px) {
+  .toolbar-wrap {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

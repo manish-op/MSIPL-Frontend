@@ -135,7 +135,7 @@ function EmployeeList() {
       title: "Role",
       dataIndex: "role",
       key: "role",
-      // You can add filters here if needed
+    
       filters: [
         { text: 'Admin', value: 'admin' },
          { text: 'Manager', value: 'manager' },
@@ -148,8 +148,8 @@ function EmployeeList() {
       title: "Region",
       dataIndex: "regionName",
       key: "regionName",
-      // Only show this column if the user is an admin
-      ...(role !== "admin" && { responsive: ['md'] }) // Example: hide on small screens if not admin
+      
+      ...(role !== "admin" && { responsive: ['md'] }) 
     },
   ];
   
@@ -186,7 +186,7 @@ function EmployeeList() {
                 optionFilterProp="children"
                 filterOption={(input, option) => (option?.children ?? "").toLowerCase().includes(input.toLowerCase())}
               >
-                {/* <Select.Option key="all" value={null}>All Regions</Select.Option> */}
+                
                 {regions.map((region) => (
                   <Select.Option key={region} value={region}>{region}</Select.Option>
                 ))}

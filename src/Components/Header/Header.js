@@ -4,10 +4,7 @@ import "./Header.css";
 import logo from "../../images/images.png";
 import { ThemeContext } from "../../context/ThemeContext";
 import "./ThemeToggle.css";
-import { FaSignInAlt, FaSignOutAlt, FaQuestionCircle } from "react-icons/fa";
-
-// <-- ADD THIS 1/2: Import the NotificationBell component
-// (Adjust this path if your NotificationBell.js file is in a different folder)
+import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import NotificationBell from "../NotificationBell/NotificationBell"; 
 
 function Header() {
@@ -16,8 +13,7 @@ function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   useEffect(() => {
-    // This logic means "show the login button if on the homepage"
-    // So, !showButton means "user is logged in"
+
     setShowButton(location.pathname === "/");
   }, [location]);
 

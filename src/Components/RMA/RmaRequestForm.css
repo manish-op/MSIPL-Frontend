@@ -1,0 +1,154 @@
+.rma-form-card {
+  max-width: 1100px;
+  margin: 24px auto 32px;
+  padding: 24px 32px 32px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.18);
+}
+
+/* Main title */
+.rma-form-title {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* Section titles */
+.rma-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 16px 0 8px;
+}
+
+.rma-form-card .ant-form-item {
+  margin-bottom: 14px;
+}
+
+/* Inputs & selects */
+.rma-form-card .ant-input,
+.rma-form-card .ant-input-textarea,
+.rma-form-card .ant-select-selector {
+  border-radius: 8px !important;
+  min-height: 38px;
+  font-size: 14px;
+}
+
+/* Focus state */
+.rma-form-card .ant-input:focus,
+.rma-form-card .ant-input-focused,
+.rma-form-card .ant-select-focused .ant-select-selector {
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  border-color: #2563eb !important;
+}
+
+/* Labels */
+.rma-form-card .ant-form-item-label > label {
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Buttons row */
+.rma-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.rma-actions .ant-btn-primary {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.rma-actions .ant-btn-primary:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+/* Preview modal */
+.rma-preview-modal .ant-modal-content {
+  border-radius: 16px;
+  padding: 20px 24px 16px;
+}
+
+.rma-preview-modal .ant-modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.rma-preview-modal .ant-modal-body {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.rma-preview-modal .ant-typography h5 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.rma-preview-modal p {
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.rma-preview-modal p strong {
+  color: #111827;
+}
+
+.rma-preview-modal .ant-modal-footer .ant-btn-primary {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.rma-preview-modal .ant-modal-footer .ant-btn-primary:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+/* Global confirm popup rounding */
+.ant-modal-confirm .ant-modal-content {
+  border-radius: 14px;
+}
+
+/* Dark Mode Overrides */
+[data-theme='dark'] .rma-form-card {
+  background: #141414; /* Ant Design Dark bg */
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid #303030;
+}
+
+[data-theme='dark'] .rma-form-title {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .rma-section-title {
+  color: #e5e7eb;
+}
+
+[data-theme='dark'] .rma-form-card .ant-form-item-label > label {
+  color: #d1d5db;
+}
+
+/* Dark mode inputs */
+[data-theme='dark'] .rma-form-card .ant-input,
+[data-theme='dark'] .rma-form-card .ant-input-textarea,
+[data-theme='dark'] .rma-form-card .ant-select-selector {
+  background-color: #1f1f1f !important;
+  border-color: #434343 !important;
+  color: #ffffff !important;
+}
+
+[data-theme='dark'] .rma-form-card .ant-input::placeholder {
+  color: #6b7280;
+}
+
+[data-theme='dark'] .rma-form-card .ant-select-arrow {
+  color: #ffffff;
+}

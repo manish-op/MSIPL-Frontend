@@ -1,14 +1,9 @@
-// src/API/EmployeeList/GetEmployeeListAPI.js
 
 import Cookies from "js-cookie";
-import { URL } from "../URL"; // Assuming this path is correct relative to this file
+import { URL } from "../URL"; 
 import { message } from "antd";
 
-/**
- * Fetches the list of employees.
- * @param {string | null} regionName - The name of the region to filter by (optional).
- *@returns {Promise<Array>} - A promise that resolves to the list of employees.
- */
+
 async function GetEmployeeListAPI(regionName) {
   // 1. Using atob and js-cookie to get the token, as per your example
   const token = atob(Cookies.get("authToken"));
@@ -41,8 +36,7 @@ async function GetEmployeeListAPI(regionName) {
       throw new Error(errorMessage);
     }
 
-    // This is the key difference from AddEmployeeAPI:
-    // We must return the JSON data for the component to display.
+   
     const data = await response.json();
     return data;
 
@@ -51,7 +45,7 @@ async function GetEmployeeListAPI(regionName) {
     console.error("Error fetching employee list:", error); // Good to keep for debugging
     message.error("API Error: " + error.message, 5);
     
-    // Re-throw the error so the component's .catch() block will run
+    
     throw error;
   }
 }

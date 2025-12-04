@@ -15,6 +15,10 @@
   box-sizing: border-box;
 }
 
+.footer-left{
+  padding: left 20px;;
+}
+
 .footer-left,
 .footer-center,
 .footer-right {

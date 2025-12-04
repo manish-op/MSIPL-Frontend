@@ -1,71 +1,130 @@
+/* Sidebar.css */
 
-
-/* --- Default Mobile Styles --- */
-
-/* Main sidebar container */
-.sidebar {
-  position: fixed; /* Keep it fixed on the screen */
-  left: 0;
-  top: 0;
-  height: 100vh;
-  z-index: 1001; /* Ensure it's above other content */
-  transition: transform 0.3s ease-in-out;
+:root {
+  --sidebar-bg: #001529;
+  --sidebar-header-bg: #002140;
+  --menu-highlight: #1890ff;
+  --text-white: #ffffff;
+  --overlay-bg: rgba(0, 0, 0, 0.5);
 }
 
-/* Hide the sidebar off-screen by default on mobile */
-.sidebar.collapsed {
-  transform: translateX(-100%);
+/* --- General Sider Styling --- */
+.custom-sidebar {
+  background: var(--sidebar-bg) !important;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
 }
 
-/* Style for the overlay that appears behind the sidebar on mobile */
+/* --- Header Section (Logo + Toggle) --- */
+.sidebar-header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: var(--sidebar-header-bg);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.logo-text {
+  color: var(--text-white);
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Desktop Toggle Icon inside Header */
+.desktop-toggle, .mobile-close {
+  color: #a6adb4;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.desktop-toggle:hover, .mobile-close:hover {
+  color: var(--text-white);
+}
+
+/* --- Menu Styling --- */
+.custom-menu {
+  background: transparent !important;
+  border-right: none !important;
+  margin-top: 10px;
+}
+
+/* Scrollbar styling for the menu if it gets too long */
+.ant-layout-sider-children {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.ant-layout-sider-children::-webkit-scrollbar {
+  width: 6px;
+}
+.ant-layout-sider-children::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+/* --- Mobile Specific Styles --- */
+
+/* 1. The Overlay (Backdrop) */
 .sidebar-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--overlay-bg);
+  z-index: 1000; /* Behind sidebar (1001), above content */
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  backdrop-filter: blur(2px); /* Modern blur effect */
 }
 
-/* Show the overlay when the sidebar is open */
 .sidebar-overlay.visible {
   opacity: 1;
   visibility: visible;
 }
 
-/* The floating toggle button for mobile */
+/* 2. Floating Toggle Button (Visible only on mobile when collapsed) */
 .mobile-toggle-btn {
   position: fixed;
   top: 15px;
   left: 15px;
-  z-index: 1002; /* Above the sidebar and overlay */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
 }
 
-/* --- Desktop Styles (screens wider than 768px) --- */
-@media (min-width: 768px) {
-  /* On desktop, the sidebar is part of the normal document flow */
-  .sidebar {
-    position: sticky; /* Stick to the top when scrolling */
-    transform: none !important; /* Reset the mobile transform */
+/* 3. Mobile Sidebar Behavior */
+@media (max-width: 768px) {
+  /* On mobile, sidebar is fixed and slides in from left */
+  .custom-sidebar.mobile-sider {
+    height: 100vh !important;
   }
-
-  /* We don't need the overlay on desktop */
-  .sidebar-overlay {
+  
+  /* Hide desktop toggle logic */
+  .desktop-toggle {
     display: none;
   }
+}
 
-  /* Hide the mobile-specific toggle button on desktop */
-  .mobile-toggle-btn {
-    display: none;
-  }
-
-  /* Use Ant Design's built-in collapse transition on desktop */
-  .sidebar .ant-layout-sider-children {
-    transition: all 0.2s;
-  }
+@media (min-width: 769px) {
+    /* Hide mobile elements on desktop */
+    .mobile-toggle-btn {
+        display: none;
+    }
+    .mobile-close {
+        display: none;
+    }
 }

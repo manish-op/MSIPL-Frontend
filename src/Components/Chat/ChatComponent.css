@@ -1,24 +1,19 @@
-/* Mobile-first full-screen styles 
-*/
 .chat-container {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  
-  /* Full-screen layout for mobile */
+
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%; /* Use 100% instead of 100vw */
-  
-  /* --- FIX 1: Stable Viewport Height --- */
-  /* This prevents the component from "jumping" when the browser address bar hides. */
-  height: 100vh; /* Fallback for older browsers */
-  height: 100svh; /* Uses "small viewport height" which is stable */
+  width: 100%; 
+ 
+  height: 100vh; 
+  height: 100svh; 
 
   margin: 0;
   border: none;
   border-radius: 0;
   box-shadow: none;
-  overflow: hidden; /* Crucial: The container itself should not scroll */
+  overflow: hidden; 
   
   display: flex;
   flex-direction: column;
@@ -49,9 +44,6 @@
   overflow-y: auto; /* Key: only this area scrolls */
   padding: 20px;
   background-color: var(--component-background);
-  
-  /* --- FIX 2: Native App Feel --- */
-  /* This stops the page from scrolling or refreshing when you scroll the chat */
   overscroll-behavior: contain;
 }
 
@@ -119,8 +111,6 @@
   border-top: 1px solid var(--border-color);
   background-color: var(--hover-color);
   flex-shrink: 0; /* Prevents input from shrinking */
-
-  /* Adds padding to the bottom to avoid the iOS home bar */
   padding-bottom: calc(12px + env(safe-area-inset-bottom));
 }
 
@@ -161,13 +151,12 @@
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
     
-    /* Reset mobile full-screen fixes */
-    height: 70vh; /* Revert from 100svh */
+   
+    height: 70vh; 
   }
 
   .input-area {
-     /* Reset padding for desktop */
      padding: 20px;
-     padding-bottom: 20px; /* Reset safe-area padding */
+     padding-bottom: 20px; 
   }
 }

@@ -1,47 +1,67 @@
+// LoginApiCall.js
 import Cookies from "js-cookie";
 import { URL } from "../../URL";
 import { message } from "antd";
 
-async function LoginApiCall(loginDetails, navigate) {
+/**
+ * LoginApiCall(loginDetails)
+ * - loginDetails: { email, password, service? }
+ * - DOES NOT navigate internally.
+ * - Returns { success: boolean, data?, message? }
+ */
+async function LoginApiCall(loginDetails) {
   const url = URL + "/admin/user/login";
+
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      // include the service in the payload if provided
       body: JSON.stringify(loginDetails),
+      credentials: "include", // ensure cookies allowed if backend sets them
     });
+
     if (response.ok) {
       const json = await response.json();
-      loginDetails.email = "";
-      loginDetails.password = "";
-      
-      const tokenId = json.authToken; // This is the raw token
-      const encodedData = btoa(tokenId); // This is the encoded one for the cookie
 
-      // You can keep your cookie line, that's fine.
-      Cookies.set("authToken", encodedData, { expires: 6, path: '/' }); 
+      // Clear sensitive fields in the object reference (optional)
+      try {
+        loginDetails.email = "";
+        loginDetails.password = "";
+      } catch (e) { /* ignore */ }
 
-      localStorage.setItem("authToken", tokenId); 
-      // ---------------------
+      // Normalize token handling: server may or may not return a token
+      const tokenId = json.authToken;
+      if (tokenId) {
+        try {
+          const encodedData = btoa(tokenId);
+          Cookies.set("authToken", encodedData, { expires: 6, path: "/" });
+          localStorage.setItem("authToken", tokenId);
+        } catch (e) {
+          // ignore cookie write errors
+        }
+      }
 
-      // You are already saving this other info:
-      localStorage.setItem("email", json.email);
-      localStorage.setItem("name", json.name);
-      localStorage.setItem("mobile", json.mobileNo);
-      localStorage.setItem("region", json.region);
-      localStorage.setItem("_User_role_for_MSIPL", json.role);
-      
-      navigate("/dashboard/profile");
-      message.success('Login successfully!', 1);
-      return true;
+      // Save user info
+      if (json.email) localStorage.setItem("email", json.email);
+      if (json.name) localStorage.setItem("name", json.name);
+      if (json.mobileNo) localStorage.setItem("mobile", json.mobileNo);
+      if (json.region) localStorage.setItem("region", json.region);
+      if (json.role) localStorage.setItem("_User_role_for_MSIPL", json.role);
+
+      message.success("Login successful", 1);
+
+      return { success: true, data: json };
     } else {
       const mess = await response.text();
-      return message.warning(mess, 5);
+      message.warning(mess, 5);
+      return { success: false, message: mess };
     }
   } catch (error) {
-    return message.error("Error message: " + (error.message || "Network error"), 5);
+    message.error("Error: " + (error.message || "Network error"), 5);
+    return { success: false, message: error.message || "Network error" };
   }
 }
 

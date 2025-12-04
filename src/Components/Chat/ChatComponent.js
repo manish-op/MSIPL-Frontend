@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
- import "../../App.css"; //  global styles
- import "./ChatComponent.css"; // The themed CSS file
+ import "../../App.css";
+ import "./ChatComponent.css"; 
 
-// ... (sessionStorage functions for message history are the same) ...
+
 const CHAT_STORAGE_KEY = 'chat_messages';
 const loadMessagesFromStorage = () => {
     try {
@@ -22,7 +22,7 @@ const ChatComponent = () => {
     const subscriptionRef = useRef(null);
     const messagesEndRef = useRef(null);
 
-    // --- Read the user's name directly from localStorage ---
+   
     const [username] = useState(() => localStorage.getItem("name") || "Guest");
     
     const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); };
@@ -33,8 +33,7 @@ const ChatComponent = () => {
 
 
     useEffect(() => {
-        // --- No token check needed ---
-
+       
         if (typeof window.SockJS === 'undefined' || typeof window.Stomp === 'undefined') {
             console.error("ChatComponent: SockJS or StompJS not loaded.");
             setError("Chat libraries failed to load. Please refresh.");
@@ -90,7 +89,7 @@ const ChatComponent = () => {
         connect();
 
         return () => {
-            // ... (same cleanup logic, but send name on LEAVE) ...
+           
             console.log("Cleaning up chat component...");
             if (subscriptionRef.current) subscriptionRef.current.unsubscribe();
             if (stompClientRef.current) {
@@ -107,11 +106,11 @@ const ChatComponent = () => {
             setConnected(false);
         };
 
-    }, [username]); // <-- Depend on username
+    }, [username]);
 
     const sendMessage = () => {
         if (messageInput && stompClientRef.current && connected) {
-            // --- Add username from localStorage to the message payload ---
+           
             const chatMessage = {
                 sender: username,
                 content: messageInput,
@@ -140,7 +139,7 @@ const ChatComponent = () => {
                 </div>
             )}
 
-            {/* Message Area */}
+       
             <div className="message-area">
                 {messages.map((msg, index) => (
                     <div key={index} className="message-container">
@@ -152,8 +151,8 @@ const ChatComponent = () => {
                                     {msg.sender} {msg.type === 'JOIN' ? 'joined' : 'left'}
                                 </span>
 
-                                {/* The Timestamp Below */}
-                                {msg.timestamp && ( // Only show if timestamp exists
+                     
+                                {msg.timestamp && ( 
                                     <div className="system-message-timestamp">
                                         {msg.timestamp}
                                     </div>

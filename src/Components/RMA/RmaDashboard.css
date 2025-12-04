@@ -1,0 +1,53 @@
+/* Global Layout Background */
+.ant-layout {
+  background: #f0f2f5;
+  transition: background 0.3s;
+}
+
+[data-theme='dark'] .ant-layout {
+  background: #000000;
+}
+
+/* Sidebar Styling */
+.msipl-sider {
+  background: #001529;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.msipl-sider-toggle {
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.3s;
+}
+
+.msipl-sider-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Footer Styling */
+.msipl-footer {
+  background: #001529;
+  color: rgba(255, 255, 255, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  padding: 12px 24px;
+  font-size: 13px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.msipl-footer span {
+  transition: color 0.3s;
+  cursor: default;
+}
+
+.msipl-footer span:hover {
+  color: #fff;
+}
