@@ -1,15 +1,7 @@
-// LoginForm.jsx
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  message,
-  Card,
-  Input,
-  Button,
-  Typography,
-  Radio,
-  Space,
-} from "antd";
+import Cookies from "js-cookie";
+import { message, Card, Input, Button, Typography, Checkbox,Segmented } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import Header from "../Header/Header";
@@ -23,26 +15,27 @@ const { Title, Text } = Typography;
 function LoginForm() {
   const navigate = useNavigate();
   const [loginDetails, setLoginDetails] = useState({ email: "", password: "" });
-  const [service, setService] = useState("warehouse"); // default pre-selected
   const [loading, setLoading] = useState(false);
+  const [remember, setRemember] = useState(false);
 
-  const radioWrapperRef = useRef(null);
+  const[mode, setMode]=useState("warehouse");
 
   useEffect(() => {
-    // prefill previously selected service only
-    const savedService = localStorage.getItem("msipl_selected_service");
-    if (savedService === "warehouse" || savedService === "rma") setService(savedService);
+    const token = Cookies.get("authToken");
+    if (token) navigate("/dashboard/profile");
 
-    // focus first radio input for keyboard users when component mounts
-    setTimeout(() => {
-      if (radioWrapperRef.current) {
-        const firstInput = radioWrapperRef.current.querySelector('input[type="radio"]');
-        if (firstInput) firstInput.focus();
-      }
-    }, 100);
-  }, []);
+    // load saved email if "remember me" used previously
+    const savedEmail = localStorage.getItem("msipl_remember_email");
+    if (savedEmail) {
+      setLoginDetails((s) => ({ ...s, email: savedEmail }));
+      setRemember(true);
+    }
+  }, [navigate]);
 
-  const validateEmail = (email) => /^\S+@\S+\.\S+$/.test(email);
+  const validateEmail = (email) => {
+    // simple email regex
+    return /^\S+@\S+\.\S+$/.test(email);
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -54,6 +47,7 @@ function LoginForm() {
       message.error("Email and password cannot be blank.", 2);
       return;
     }
+
     if (!validateEmail(email)) {
       message.error("Please enter a valid email address.", 2);
       return;
@@ -61,21 +55,19 @@ function LoginForm() {
 
     try {
       setLoading(true);
+      // remember email locally if user asked
+      if (remember) localStorage.setItem("msipl_remember_email", email);
+      else localStorage.removeItem("msipl_remember_email");
 
-      // persist selected service for next time
-      localStorage.setItem("msipl_selected_service", service);
-
-      // call login API with service included
-      const payload = { email, password: pwd, service }; // backend can consume "service"
-      const result = await LoginApiCall(payload);
-
-      if (result && result.success) {
-        // on success navigate directly to selected service area
-        if (service === "rma") navigate("/rma");
-        else navigate("/dashboard/profile");
-      } else {
-        message.error(result?.message || "Login failed. Please try again.", 3);
+      await LoginApiCall({ email, password: pwd }, navigate);
+      // LoginApiCall should set cookies / navigate on success. If it doesn't, you can handle here.
+      if(mode==="rma"){
+        navigate("/rma-dashboard");
       }
+      else{
+        navigate("/dashboard/profile")
+      }
+    
     } catch (err) {
       console.error("Login failed:", err);
       message.error(err?.message || "Login failed. Please try again.", 3);
@@ -89,18 +81,51 @@ function LoginForm() {
       <Header />
 
       <div className="login-wrapper">
-        <Card className="login-card" bordered={false}>
+        <Card className="login-card" variant="borderless">
           <div className="login-header">
             <img src={logo} alt="Company Logo" className="login-logo" />
             <Title level={4} style={{ margin: "10px 0 0 0", color: "var(--text-color)" }}>
               Motorola Solutions India Pvt. Ltd.
             </Title>
-            <Text type="secondary" style={{ color: "var(--text-color)" }}>
-              Warehouse Management System
-            </Text>
+           <Text type="secondary" style={{color: "var(--text color)"}}>
+            {mode==="warehouse"
+            ?"Warehouse Management System"
+            :"RMA Request Portal"}
+           </Text>
           </div>
 
+              {/*Toggle button for switching from warehouse to RMA*/}
+              <div
+              style={{
+              display:"flex",
+              justifyContent:"center",
+              marginTop:16,
+              marginBottom:8
+              }}>
+                <Segmented
+                value={mode}
+                onChange={setMode}
+                options={[
+                  {label:"Warehouse", value:"warehouse"},
+                  {label:"RMA Request", value:"rma"}
+                ]}>  
+                </Segmented>
+              </div>
+
           <form onSubmit={handleFormSubmit} className="login-form" aria-label="Login form">
+            
+            {/*small helper text under toggle button*/}
+            <div style={{marginBottom:8,
+              textAlign:"center",
+            }}>
+              <Text type="secondary"
+              style={{fontSize:12}}>
+                {mode==="warehouse"
+                ?"Login to access Warehouse Management System"
+                :"Login to access RMA Request Portal."}
+              </Text>
+            </div>
+                    
             <label className="visually-hidden" htmlFor="login-email">Email</label>
             <Input
               id="login-email"
@@ -111,7 +136,6 @@ function LoginForm() {
               onChange={(e) => setLoginDetails({ ...loginDetails, email: e.target.value })}
               style={{ marginBottom: "12px" }}
               autoComplete="username"
-              aria-required="true"
             />
 
             <label className="visually-hidden" htmlFor="login-password">Password</label>
@@ -122,23 +146,11 @@ function LoginForm() {
               prefix={<LockOutlined />}
               value={loginDetails.password}
               onChange={(e) => setLoginDetails({ ...loginDetails, password: e.target.value })}
-              style={{ marginBottom: "12px" }}
+              style={{ marginBottom: "10px" }}
               autoComplete="current-password"
-              aria-required="true"
             />
 
-            {/* Service selection */}
-            <div style={{ marginBottom: 12 }} ref={radioWrapperRef} aria-label="Select service">
-              <label style={{ display: "block", marginBottom: 6, color: "var(--text-color)" }}>
-                Sign in to:
-              </label>
-              <Radio.Group onChange={(e) => setService(e.target.value)} value={service}>
-                <Space direction="horizontal">
-                  <Radio value="warehouse">Warehouse</Radio>
-                  <Radio value="rma">RMA</Radio>
-                </Space>
-              </Radio.Group>
-            </div>
+            
 
             <Button
               type="primary"
@@ -147,13 +159,13 @@ function LoginForm() {
               block
               className="login-btn"
               loading={loading}
-              aria-label="Login"
+              disabled={loading}
             >
               {loading ? "Signing in…" : "Login"}
             </Button>
           </form>
 
-          <div className="back-home" style={{ marginTop: 12 }}>
+          <div className="back-home">
             <Link to="/" className="back-link">← Back to Home</Link>
           </div>
         </Card>

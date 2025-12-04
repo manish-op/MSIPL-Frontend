@@ -22,7 +22,7 @@ export const RmaApi = {
         return null;
       }
 
-      return await response.text(); // Backend returns plain text
+      return await response.text(); 
 
     } catch (error) {
       message.error("RMA API Network Error: " + error.message, 5);
